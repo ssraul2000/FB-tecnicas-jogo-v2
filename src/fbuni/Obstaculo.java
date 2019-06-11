@@ -2,78 +2,48 @@ package fbuni;
 import java.util.Random;
 
 public class Obstaculo extends DesenhoAnimado {
-	private Thread t = new Thread(this);
-	private int time;
-	static private boolean gameOver;
-	static Random position;	
-	public int getTime() {
-		return time;
-	}
 
-	public void setTime(int time) {
-		this.time = time;
-	}
+	private Thread exec;
+	static private boolean stopObs;
+	private int v;
 
-	public int getVelocity() {
-		return velocity;
-	}
-
-	public static boolean getGameOver() {
-		return gameOver;
-	}
-
-	public static void setGameOver(boolean gameOver) {
-		Obstaculo.gameOver = gameOver;
-	}
-
-	public void setVelocity(int velocity) {
-		this.velocity = velocity;
-	}
-
-	private int velocity;
 	
-	public Obstaculo() {
-		this.gameOver = false;
-		this.time = 100;
-		this.velocity = 5;
-		this.position = new Random();
-	}
-	
-	public Obstaculo(int x, int y, String path, int time, int velocity) {
+	public Obstaculo(int x, int y, String path, int v) {
 		super(x, y, path);
-		this.time = time;
-		this.velocity = velocity;
-		this.gameOver = false;
-		this.position = new Random();
-		t.start();
-	}
-	
-	public Thread getT() {
-		return t;
-	}
-
-	public void setT(Thread t) {
-		this.t = t;
-	}
-	public void restart() {
-		super.setX(this.position.nextInt(600));
-		super.setY(0);
+		this.stopObs = false;
+		this.v = v;
+		this.exec = new Thread(this);
+		this.exec.start();
+		
 	}
 	
 	public void run() {
-
-		super.setX(position.nextInt(600));
-		while(gameOver != true) {
-			super.setY( super.getY() + this.velocity );
+		Random r = new Random();
+		super.setX(r.nextInt(470));
+		while(!stopObs) {
+			super.setY( super.getY() + this.v );
 			try {
-				t.sleep(this.time);
+				exec.sleep(50);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	
 	}
-
+	public int getV() {
+		return v;
+	}
 	
+	public void setV(int v) {
+		this.v = v;
+	}
+
+	public static boolean stopObs() {
+		return stopObs;
+	}
+
+	public static void setStopObs(boolean chave) {
+		Obstaculo.stopObs = chave;
+	}
+
 }

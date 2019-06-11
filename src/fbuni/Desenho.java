@@ -13,10 +13,12 @@ public class Desenho {
 	private int x;
 	private int y;
 	private BufferedImage img;
+	private String path;
 	
 	public Desenho() {}
 	
 	public Desenho(int x, int y, String path) {
+		this.path = path;
 		this.setX(x);
 		this.setY(y);
 
@@ -27,6 +29,12 @@ public class Desenho {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public String getPath() {
+		return this.path;
+	}
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public int getX() {

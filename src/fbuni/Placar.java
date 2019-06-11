@@ -1,29 +1,48 @@
 package fbuni;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-import java.awt.Font;
 import javax.swing.JLabel;
-public class Placar {
-	private String msg;
-	private int point;
+import javax.swing.JOptionPane;
+public class Placar implements Serializable {	
+	private ArrayList<User> users;
 	public Placar() {
-		msg = "Lifes: 3 Point: 0";
-		this.point = 0;
+		this.users = new ArrayList<User>();
 	}
-	public String getMsg(int lifes) {
-		msg = "Lifes: "+lifes + " Point: "+ this.point;
-		return msg;
+	public void handleChalenge( int point, String nome ) {
+		if(this.users.size() == 0) {
+			this.users.add(0, new User(nome,point, 1 ) );
+		}else {
+			for(int i = 0; i< this.users.size(); i++) {
+				if( point > this.users.get(i).getPoint() ) {
+					this.users.add(i, new User(nome,point, i+1 ) );
+					while(i + 1 < this.users.size()) {
+						this.users.get(i+1).setPosition(i+2);
+						i++;
+					}
+					break;
+				}else if(point == this.users.get(i).getPoint()) {
+					this.users.add(i+1, new User(nome,point, i+2 ) );
+					while(i + 2 < this.users.size()) {
+						this.users.get(i+2).setPosition(i+3);
+						i++;
+					}
+					break;
+				}
+			}
+		}
+		
 	}
 	
-	public String getMsg() {
-		return msg;
-	}
-
-	public int getPoint() {
-		return point;
-	}
-	public void setPoint(int point) {
-		this.point = point;
+	public void showPlacar() {
+		String msg = "";
+		for(int i = 0; i< this.users.size() && i < 5; i++) {
+			User user = this.users.get(i);
+			msg += user.getPosition()+  "ª" + " Nome: " + user.getNome() + " => " + user.getPoint() + " pontos\n";
+		}
+		JOptionPane.showMessageDialog(null, msg, "Placar :/", 1);
+		
 	}
 	
-			
+	
 }

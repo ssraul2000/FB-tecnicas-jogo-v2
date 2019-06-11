@@ -3,25 +3,14 @@ package fbuni;
 import javax.swing.JLabel;
 
 final public class Nave extends DesenhoMovel {
-	public int lifes;
-	public Nave() {
-		this.lifes = 3;
-	}
-	public Nave(int x, int y, String path, int velocity) {
-		super(x, y, path, velocity);
-		this.lifes = 3;
+	private int vidas = 2;
+	private int level = 1;
+
+	public Nave(int x, int y, String path, int v) {
+		super(x, y, path, v);
 	}
 	
-	public int getLifes() {
-		return lifes;
-	}
-	
-	public void setLifes(int lifes) {
-		this.lifes = lifes;
-	}
-	
-	
-	public boolean  getColision(Obstaculo b) {
+	public boolean colision(Obstaculo b) {
 		int aX = this.getX();
 		int aY = this.getY();
 		int ladoDireitoA = aX+this.getImg().getWidth();
@@ -65,8 +54,20 @@ final public class Nave extends DesenhoMovel {
 
 	}
 	
-	public void handleColision(Obstaculo b) {
-		this.lifes -=1;
-		b.restart();
+	public int getVidas() {
+		return vidas;
 	}
+
+	public void setVidas(int vidas) {
+		this.vidas = vidas;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	public int getLevel() {
+		return level;
+	}
+
+	
 }
